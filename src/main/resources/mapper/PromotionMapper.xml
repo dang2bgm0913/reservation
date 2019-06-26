@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.or.connect.booking.dao.promotion.PromotionDao">
+	<select id="selectAll" resultType="Promotion">
+		SELECT promotion.id id, promotion.product_id productId, file_info.save_file_name productImageUrl
+		FROM promotion, product, product_image, file_info
+		WHERE promotion.product_id = product.id
+		AND product.id = product_image.product_id
+		AND product_image.`type` = "th"
+		AND product_image.file_id = file_info.id;
+	</select>
+</mapper>

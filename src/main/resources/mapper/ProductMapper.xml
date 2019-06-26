@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.or.connect.booking.dao.product.ProductDao">
+	<select id="selectByCategoryId" parameterType="map" resultType="Product">
+		SELECT display_info.id displayInfoId,
+		display_info.place_name placeName,
+		product.content productContent,
+		product.description productDiscription,
+		product.id productId,
+		file_info.save_file_name productImageUrl
+		FROM product, display_info, product_image, file_info
+		WHERE product.id = display_info.product_id
+		AND product.id =
+		product_image.product_id
+		AND product_image.file_id = file_info.id
+		<if test="categoryId != 0">
+			AND product.category_id = #{categoryId}
+		</if>
+        AND product_image.type = "th"
+		LIMIT #{start}, #{limit};
+	</select>
+
+	<select id="countByCategoryId" parameterType="int" resultType="int">
+		SELECT COUNT(*)
+		FROM product, display_info, product_image, file_info
+		WHERE product.id = display_info.product_id
+		AND product.id = product_image.product_id
+		AND product_image.file_id = file_info.id
+        <if test="categoryId != 0">
+            AND product.category_id = #{categoryId}
+        </if>
+		AND product_image.type = "th";
+	</select>
+</mapper>
